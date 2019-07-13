@@ -1,0 +1,25 @@
+{
+  "name": "francine_blog",
+  "version": "1.0.0",
+  "description": "Blogpage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giordifungula/francine_blog.git"
+  },
+  "author": "Giordi Fungula",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/giordifungula/francine_blog/issues"
+  },
+  "homepage": "https://github.com/giordifungula/francine_blog#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1",
+    "startbootstrap-clean-blog": "^5.0.7"
+  }
+}
