@@ -12,6 +12,7 @@ app.use(express.static("public"));
 // load the static pages
 app.use(expressEdge);
 app.set("views", __dirname + "/views");
+// will render the routing pages
 
 // // Requests will be here
 // app.get("/", (req, res) => {
