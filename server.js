@@ -6,6 +6,8 @@ const path = require("path");
 
 const expressEdge = require("express-edge");
 // expressEdge will use template engine
+const mongoose = require("mongoose");
+// mongoose data base
 const router = express.Router();
 
 app.use(express.static("public"));
@@ -36,6 +38,12 @@ app.get("/post", (req, res) => {
   res.sendFile(path.resolve(__dirname, "pages/post.html"));
 });
 // render the post page
+
+// Database
+mongoose
+  .connect("mongodb://localhost:27017/node-blog", { useNewUrlParser: true })
+  .then(() => "You are now connected to Mongo!")
+  .catch(err => console.error("Something went wrong", err));
 
 app.listen(4000, () => {
   console.log("App listening on port 4000");
