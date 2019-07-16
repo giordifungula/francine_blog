@@ -57,12 +57,20 @@ app.get("/contact", (req, res) => {
 });
 // render the contact page
 
+app.get("/post/:id", async (req, res) => {
+  const post = await Post.findById(req.params.id);
+  // Get the current item id ( which is like number on the database )
+  res.render("post", {
+    post
+  });
+});
+
 app.post("/posts/store", (req, res) => {
   console.log(req.body);
   Post.create(req.body, (error, post) => {
     res.redirect("/");
   });
-  // res.redirect("/");
+  // About to create a post
 });
 
 // Database
