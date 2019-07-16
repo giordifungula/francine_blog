@@ -14,6 +14,9 @@ const bodyParser = require("body-parser");
 // body parser to collect data from forms
 const Post = require("./database/models/Post");
 
+const fileUpload = require("express-fileupload");
+// upload images
+
 app.use(express.static("public"));
 // load the static pages
 app.use(expressEdge);
@@ -48,6 +51,24 @@ app.get("/posts/new", (req, res) => {
   res.render("create");
   // will go to the views and find the create edge file
 });
+
+// When you create a post file upload
+app.post("/posts/store", (req, res) => {
+  const { image } = req.files;
+
+  image.mv(path.resolve(__dirname, "public/posts", image.name), error => {
+    Post.create(
+      {
+        ...req.body,
+        image: `/posts/${image.name}`
+      },
+      (error, post) => {
+        res.redirect("/");
+      }
+    );
+  });
+});
+
 app.get("/about", (req, res) => {
   res.sendFile(path.resolve(__dirname, "pages/about.html"));
 });
