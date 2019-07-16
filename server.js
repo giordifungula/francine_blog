@@ -10,11 +10,22 @@ const mongoose = require("mongoose");
 // mongoose data base
 const router = express.Router();
 
+const bodyParser = require("body-parser");
+// body parser to collect data from forms
+const Post = require("./database/models/Post");
+
 app.use(express.static("public"));
 // load the static pages
 app.use(expressEdge);
 app.set("views", __dirname + "/views");
 // will render the routing pages
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
+// setting up body parser
 
 // // Requests will be here
 // app.get("/", (req, res) => {
@@ -24,8 +35,12 @@ app.set("views", __dirname + "/views");
 app.get("/", (req, res) => {
   res.render("index");
 });
-
 // Renders the home page
+
+app.get("/posts/new", (req, res) => {
+  res.render("create");
+  // will go to the views and find the create edge file
+});
 app.get("/about", (req, res) => {
   res.sendFile(path.resolve(__dirname, "pages/about.html"));
 });
@@ -34,10 +49,21 @@ app.get("/contact", (req, res) => {
   res.sendFile(path.resolve(__dirname, "pages/contact.html"));
 });
 // render the contact page
-app.get("/post", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "pages/post.html"));
+app.get("/", async (req, res) => {
+  const posts = await Post.find({});
+  res.render("index", {
+    posts
+  });
 });
 // render the post page
+
+app.post("/posts/store", (req, res) => {
+  console.log(req.body);
+  Post.create(req.body, (error, post) => {
+    res.redirect("/");
+  });
+  // res.redirect("/");
+});
 
 // Database
 mongoose
