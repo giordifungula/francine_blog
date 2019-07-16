@@ -26,15 +26,22 @@ app.use(
   })
 );
 // setting up body parser
+app.get("/", async (req, res) => {
+  const posts = await Post.find({});
+  res.render("index", {
+    posts
+  });
+});
+// Fetch Data from database
 
 // // Requests will be here
 // app.get("/", (req, res) => {
 //   res.sendFile(path.resolve(__dirname, "pages/index.html"));
 // });
 
-app.get("/", (req, res) => {
-  res.render("index");
-});
+// app.get("/", (req, res) => {
+//   res.render("index");
+// });
 // Renders the home page
 
 app.get("/posts/new", (req, res) => {
@@ -49,13 +56,6 @@ app.get("/contact", (req, res) => {
   res.sendFile(path.resolve(__dirname, "pages/contact.html"));
 });
 // render the contact page
-app.get("/", async (req, res) => {
-  const posts = await Post.find({});
-  res.render("index", {
-    posts
-  });
-});
-// render the post page
 
 app.post("/posts/store", (req, res) => {
   console.log(req.body);
