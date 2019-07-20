@@ -35,23 +35,21 @@ app.get("/", async (req, res) => {
 app.get("/posts/new", (req, res) => {
   res.render("create");
 });
-let image = "";
-app.post("/posts/blogz", (req, res) => {
-  // image = req.files;
-  // console.log(image);
 
-  // image.mv(path.resolve(__dirname, "public/posts", image.name), error => {
-  //   Post.create(
-  //     {
-  //       ...req.body,
-  //       image: `/posts/${image.name}`
-  //     },
-  //     (error, post) => {
-  //       res.redirect("/");
-  //     }
-  //   );
-  // });
-  console.log("we are inside the store ");
+app.post("/posts/store", (req, res) => {
+  const { image } = req.files;
+
+  image.mv(path.resolve(__dirname, "public/posts", image.name), error => {
+    Post.create(
+      {
+        ...req.body,
+        image: `/posts/${image.name}`
+      },
+      (error, post) => {
+        res.redirect("/");
+      }
+    );
+  });
 });
 
 app.get("/about", (req, res) => {
