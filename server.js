@@ -38,6 +38,8 @@ app.get("/post/:id", getPostController);
 app.get("/posts/new", createPostController);
 app.post("/posts/store", storePostController);
 // requests to the server
+app.get("/auth/register", createUserController);
+// register
 
 app.listen(4000, () => {
   console.log("App listening on port 4000");
