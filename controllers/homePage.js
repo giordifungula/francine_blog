@@ -6,5 +6,6 @@ module.exports = async (req, res) => {
 
   res.render("index", {
     posts
+    // Load the database content
   });
 };
