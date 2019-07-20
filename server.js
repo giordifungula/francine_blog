@@ -11,6 +11,8 @@ const getPostController = require("./controllers/getPost");
 // Controllers
 const createUserController = require("./controllers/createUser");
 // creating user
+const storeUserController = require("./controllers/storeUser");
+// Store User
 
 const app = new express();
 
@@ -40,6 +42,7 @@ app.post("/posts/store", storePostController);
 // requests to the server
 app.get("/auth/register", createUserController);
 // register
+app.post("/users/register", storeUserController);
 
 app.listen(4000, () => {
   console.log("App listening on port 4000");
