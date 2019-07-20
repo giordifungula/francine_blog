@@ -14,6 +14,10 @@ const bodyParser = require("body-parser");
 // body parser to collect data from forms
 const Post = require("./database/models/Post");
 
+const fileUpload = require("express-fileupload");
+// will allow us to upload files
+
+app.use(fileUpload());
 app.use(express.static("public"));
 // load the static pages
 app.use(expressEdge);
@@ -66,6 +70,7 @@ app.get("/post/:id", async (req, res) => {
 });
 
 app.post("/posts/store", (req, res) => {
+  // posting information to the /posts/store route
   console.log(req.body);
   Post.create(req.body, (error, post) => {
     res.redirect("/");
