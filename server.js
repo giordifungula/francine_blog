@@ -9,6 +9,8 @@ const homePageController = require("./controllers/homePage");
 const storePostController = require("./controllers/storePost");
 const getPostController = require("./controllers/getPost");
 // Controllers
+const createUserController = require("./controllers/createUser");
+// creating user
 
 const app = new express();
 
