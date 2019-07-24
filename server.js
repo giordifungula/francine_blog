@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
+const expressSession = require("express-session");
 
 const createPostController = require("./controllers/createPost");
 const homePageController = require("./controllers/homePage");
@@ -15,8 +16,16 @@ const storeUserController = require("./controllers/storeUser");
 // Store User
 const loginController = require("./controllers/login");
 // login controller
+const loginUserController = require("./controllers/loginUser");
+// userLogin check
 
 const app = new express();
+app.use(
+  expressSession({
+    secret: "secret"
+  })
+);
+// session being used for the users
 
 mongoose
   .connect("mongodb://localhost:27017/node-blog", { useNewUrlParser: true })
@@ -44,6 +53,8 @@ app.post("/posts/store", storePostController);
 // requests to the server
 app.get("/auth/login", loginController);
 // login route
+app.post("/users/login", loginUserController);
+// userLog in
 app.get("/auth/register", createUserController);
 // register
 app.post("/users/register", storeUserController);
