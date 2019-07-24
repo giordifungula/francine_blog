@@ -19,6 +19,7 @@ const loginController = require("./controllers/login");
 // login controller
 const loginUserController = require("./controllers/loginUser");
 // userLogin check
+const auth = require("./middleware/auth");
 
 const app = new express();
 app.use(
@@ -40,11 +41,11 @@ const mongoStore = connectMongo(expressSession);
 app.use(
   expressSession({
     secret: "secret",
+    resave: true,
+    saveUninitialized: true,
     store: new mongoStore({
       mongooseConnection: mongoose.connection
-    }),
-    resave: true,
-    saveUninitialized: true
+    })
   })
 );
 
@@ -64,7 +65,8 @@ app.use("/posts/store", storePost);
 
 app.get("/", homePageController);
 app.get("/post/:id", getPostController);
-app.get("/posts/new", createPostController);
+app.get("/posts/new", auth, createPostController);
+// only if user is logged inside
 app.post("/posts/store", storePostController);
 // requests to the server
 app.get("/auth/login", loginController);
