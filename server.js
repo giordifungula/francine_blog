@@ -21,7 +21,13 @@ const loginUserController = require("./controllers/loginUser");
 // userLogin check
 const auth = require("./middleware/auth");
 
+const connectFlash = require("connect-flash");
+
 const app = new express();
+
+app.use(connectFlash());
+// displaymessages
+
 app.use(
   expressSession({
     secret: "secret",
