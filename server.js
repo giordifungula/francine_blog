@@ -18,8 +18,6 @@ const storeUserController = require("./controllers/storeUser");
 const loginController = require("./controllers/login");
 // login controller
 const loginUserController = require("./controllers/loginUser");
-// userLogin check
-const auth = require("./middleware/auth");
 
 const connectFlash = require("connect-flash");
 
@@ -66,22 +64,34 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const storePost = require("./middleware/storePost");
 // Middleware that will validate data
+// userLogin check
+const auth = require("./middleware/auth");
+
+const redirectIfAuthenticated = require("./middleware/redirectIfAuthenticated");
 
 app.use("/posts/store", storePost);
 
+// app.get("/", homePageController);
+// app.get("/post/:id", getPostController);
+// app.get("/posts/new", auth, createPostController);
+// // only if user is logged inside
+// app.post("/posts/store", storePostController);
+// // requests to the server
+// app.get("/auth/login", loginController);
+// // login route
+// app.post("/users/login", loginUserController);
+// // userLog in
+// app.get("/auth/register", createUserController);
+// // register
+// app.post("/users/register", storeUserController);
 app.get("/", homePageController);
 app.get("/post/:id", getPostController);
 app.get("/posts/new", auth, createPostController);
-// only if user is logged inside
-app.post("/posts/store", storePostController);
-// requests to the server
-app.get("/auth/login", loginController);
-// login route
-app.post("/users/login", loginUserController);
-// userLog in
-app.get("/auth/register", createUserController);
-// register
-app.post("/users/register", storeUserController);
+app.post("/posts/store", auth, storePost, storePostController);
+app.get("/auth/login", redirectIfAuthenticated, loginController);
+app.post("/users/login", redirectIfAuthenticated, loginUserController);
+app.get("/auth/register", redirectIfAuthenticated, createUserController);
+app.post("/users/register", redirectIfAuthenticated, storeUserController);
 
 app.listen(4000, () => {
   console.log("App listening on port 4000");
