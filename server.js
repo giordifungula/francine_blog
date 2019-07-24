@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 const expressSession = require("express-session");
 const connectMongo = require("connect-mongo");
+const edge = require("edge.js");
 
 const createPostController = require("./controllers/createPost");
 const homePageController = require("./controllers/homePage");
@@ -58,6 +59,11 @@ app.use(express.static("public"));
 app.use(expressEdge);
 app.set("views", __dirname + "/views");
 // will render public folder
+
+app.use("*", (req, res, next) => {
+  edge.global("auth", req.session.userId);
+  next();
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
