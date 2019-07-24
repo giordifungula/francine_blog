@@ -6,7 +6,6 @@ module.exports = (req, res) => {
       return res.redirect("/auth/register");
     }
     res.redirect("/");
+    // if you have created the user redirect then to home page
   });
 };
-
-// Store user information
