@@ -13,6 +13,8 @@ const createUserController = require("./controllers/createUser");
 // creating user
 const storeUserController = require("./controllers/storeUser");
 // Store User
+const loginController = require("./controllers/login");
+// login controller
 
 const app = new express();
 
@@ -40,6 +42,8 @@ app.get("/post/:id", getPostController);
 app.get("/posts/new", createPostController);
 app.post("/posts/store", storePostController);
 // requests to the server
+app.get("/auth/login", loginController);
+// login route
 app.get("/auth/register", createUserController);
 // register
 app.post("/users/register", storeUserController);
