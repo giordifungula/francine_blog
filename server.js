@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
 const expressSession = require("express-session");
 const connectMongo = require("connect-mongo");
+const mongoStore = connectMongo(expressSession);
 const edge = require("edge.js");
 
 const createPostController = require("./controllers/createPost");
@@ -26,16 +27,23 @@ const connectFlash = require("connect-flash");
 
 const app = new express();
 
+const storePost = require("./middleware/storePost");
+// Middleware that will validate data
+// userLogin check
+const auth = require("./middleware/auth");
+
+const redirectIfAuthenticated = require("./middleware/redirectIfAuthenticated");
+
 app.use(connectFlash());
 // displaymessages
 
-app.use(
-  expressSession({
-    secret: "secret",
-    resave: true,
-    saveUninitialized: true
-  })
-);
+// app.use(
+//   expressSession({
+//     secret: "secret",
+//     resave: true,
+//     saveUninitialized: true
+//   })
+// );
 // session being used for the users
 
 mongoose
@@ -43,7 +51,7 @@ mongoose
   .then(() => "You are now connected to Mongo!")
   .catch(err => console.error("Something went wrong", err));
 
-const mongoStore = connectMongo(expressSession);
+mongoose.set("useCreateIndex", true);
 
 app.use(
   expressSession({
@@ -70,13 +78,6 @@ app.use("*", (req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const storePost = require("./middleware/storePost");
-// Middleware that will validate data
-// userLogin check
-const auth = require("./middleware/auth");
-
-const redirectIfAuthenticated = require("./middleware/redirectIfAuthenticated");
-
 app.use("/posts/store", storePost);
 
 // app.get("/", homePageController);
@@ -100,7 +101,7 @@ app.get("/auth/login", redirectIfAuthenticated, loginController);
 app.post("/users/login", redirectIfAuthenticated, loginUserController);
 app.get("/auth/register", redirectIfAuthenticated, createUserController);
 app.post("/users/register", redirectIfAuthenticated, storeUserController);
-app.get("/auth/logout", redirectIfAuthenticated, logoutController);
+app.get("/auth/logout", logoutController);
 
 app.listen(4000, () => {
   console.log("App listening on port 4000");
