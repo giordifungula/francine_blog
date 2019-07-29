@@ -1,3 +1,8 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+// Check if we are in production
+
 const expressEdge = require("express-edge");
 const express = require("express");
 const mongoose = require("mongoose");
@@ -46,10 +51,20 @@ app.use(connectFlash());
 // );
 // session being used for the users
 
-mongoose
-  .connect("mongodb://localhost:27017/node-blog", { useNewUrlParser: true })
-  .then(() => "You are now connected to Mongo!")
-  .catch(err => console.error("Something went wrong", err));
+// mongoose
+//   .connect("mongodb://localhost:27017/node-blog", { useNewUrlParser: true })
+//   .then(() => "You are now connected to Mongo!")
+//   .catch(err => console.error("Something went wrong", err));
+mongoose.connect(process.env.DATABASE_URL, {
+  useNewUrlParser: true
+});
+const db = mongoose.connection;
+db.on("error", error => {
+  console.log(error);
+});
+db.once("once", () => {
+  console.log("Connected to Mongoose");
+});
 
 mongoose.set("useCreateIndex", true);
 
