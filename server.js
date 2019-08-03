@@ -1,6 +1,6 @@
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
+// if (process.env.NODE_ENV !== "production") {
+//   require("dotenv").config();
+// }
 const dotenv = require("dotenv");
 // environment variables
 // Check if we are in production
@@ -118,19 +118,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/posts/store", storePost);
 
-// app.get("/", homePageController);
-// app.get("/post/:id", getPostController);
-// app.get("/posts/new", auth, createPostController);
-// // only if user is logged inside
-// app.post("/posts/store", storePostController);
-// // requests to the server
-// app.get("/auth/login", loginController);
-// // login route
-// app.post("/users/login", loginUserController);
-// // userLog in
-// app.get("/auth/register", createUserController);
-// // register
-// app.post("/users/register", storeUserController);
 app.get("/", homePageController);
 app.get("/post/:id", getPostController);
 app.get("/posts/new", auth, createPostController);
