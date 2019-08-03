@@ -1,8 +1,11 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
+const dotenv = require("dotenv");
+// environment variables
 // Check if we are in production
-
+dotenv.config({ path: "./process.env" });
+// dotenv
 const expressEdge = require("express-edge");
 const express = require("express");
 const mongoose = require("mongoose");
@@ -30,8 +33,11 @@ const logoutController = require("./controllers/logout");
 
 const connectFlash = require("connect-flash");
 
-const db =
-  require("./config/keys").mongoURI || "mongodb://localhost:27017/node-blog";
+const db = process.env.DATABASE.replace(
+  "<PASSWORD>",
+  process.env.DATABASE_PASSWORD
+);
+// require("./config/keys").mongoURI || "mongodb://localhost:27017/node-blog";
 
 // Connection URI
 // const CONNECTION_URI = 1;
@@ -70,7 +76,9 @@ app.use(connectFlash());
 // Resetting content back to normal
 mongoose
   .connect(db, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false
   })
   .then(() => {
     console.log("MongoDB Connected");
