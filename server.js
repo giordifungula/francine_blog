@@ -59,26 +59,26 @@ app.use(connectFlash());
 // );
 // session being used for the users
 
-mongoose
-  .connect("mongodb://localhost:27017/node-blog", { useNewUrlParser: true })
-  .then(() => "You are now connected to Mongo!")
-  .catch(err => console.error("Something went wrong", err));
-// mongoose.connect(process.env.DATABASE_URL, {
-//   useNewUrlParser: true
-// });
+// mongoose
+//   .connect("mongodb://localhost:27017/node-blog", { useNewUrlParser: true })
+//   .then(() => "You are now connected to Mongo!")
+//   .catch(err => console.error("Something went wrong", err));
+// // mongoose.connect(process.env.DATABASE_URL, {
+// //   useNewUrlParser: true
+// // });
 
 // Resetting content back to normal
-// mongoose
-//   .connect(db, {
-//     useNewUrlParser: true
-//   })
-//   .then(() => {
-//     console.log("MongoDB Connected");
-//   })
-//   .catch(err => {
-//     console.log(err);
-//     console.log("MongoDB Not Connected");
-//   });
+mongoose
+  .connect(db, {
+    useNewUrlParser: true
+  })
+  .then(() => {
+    console.log("MongoDB Connected");
+  })
+  .catch(err => {
+    console.log(err);
+    console.log("MongoDB Not Connected");
+  });
 
 mongoose.set("useCreateIndex", true);
 // setCreate
