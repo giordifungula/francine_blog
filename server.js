@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== "production") {
 const dotenv = require("dotenv");
 // environment variables
 // Check if we are in production
-dotenv.config({ path: "./process.env" });
+dotenv.config({ path: "process.env" });
 // dotenv
 const expressEdge = require("express-edge");
 const express = require("express");
@@ -40,9 +40,8 @@ const db = process.env.DATABASE.replace(
 // require("./config/keys").mongoURI || "mongodb://localhost:27017/node-blog";
 
 // Connection URI
-// const CONNECTION_URI = 1;
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT;
 
 const app = new express();
 
@@ -81,14 +80,15 @@ mongoose
     useFindAndModify: false
   })
   .then(() => {
-    console.log("MongoDB Connected");
+    console.log("DB connections successful");
+    // console.log(con.connections);
   })
   .catch(err => {
     console.log(err);
     console.log("MongoDB Not Connected");
   });
 
-mongoose.set("useCreateIndex", true);
+// mongoose.set("useCreateIndex", true);
 // setCreate
 
 app.use(
