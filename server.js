@@ -30,6 +30,13 @@ const logoutController = require("./controllers/logout");
 
 const connectFlash = require("connect-flash");
 
+const db = require("./config/keys").mongoURI;
+
+// Connection URI
+const CONNECTION_URI = 1;
+
+const PORT = process.env.PORT || 4000;
+
 const app = new express();
 
 const storePost = require("./middleware/storePost");
@@ -51,22 +58,29 @@ app.use(connectFlash());
 // );
 // session being used for the users
 
+mongoose
+  .connect("mongodb://localhost:27017/node-blog", { useNewUrlParser: true })
+  .then(() => "You are now connected to Mongo!")
+  .catch(err => console.error("Something went wrong", err));
+// mongoose.connect(process.env.DATABASE_URL, {
+//   useNewUrlParser: true
+// });
+
+// Resetting content back to normal
 // mongoose
-//   .connect("mongodb://localhost:27017/node-blog", { useNewUrlParser: true })
-//   .then(() => "You are now connected to Mongo!")
-//   .catch(err => console.error("Something went wrong", err));
-mongoose.connect(process.env.DATABASE_URL, {
-  useNewUrlParser: true
-});
-const db = mongoose.connection;
-db.on("error", error => {
-  console.log(error);
-});
-db.once("once", () => {
-  console.log("Connected to Mongoose");
-});
+//   .connect(db, {
+//     useNewUrlParser: true
+//   })
+//   .then(() => {
+//     console.log("MongoDB Connected");
+//   })
+//   .catch(err => {
+//     console.log(err);
+//     console.log("MongoDB Not Connected");
+//   });
 
 mongoose.set("useCreateIndex", true);
+// setCreate
 
 app.use(
   expressSession({
@@ -118,4 +132,4 @@ app.get("/auth/register", redirectIfAuthenticated, createUserController);
 app.post("/users/register", redirectIfAuthenticated, storeUserController);
 app.get("/auth/logout", logoutController);
 
-app.listen(process.env.PORT || 4000)
+app.listen(process.env.PORT || 4000);
