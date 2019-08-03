@@ -30,10 +30,11 @@ const logoutController = require("./controllers/logout");
 
 const connectFlash = require("connect-flash");
 
-const db = require("./config/keys").mongoURI;
+const db =
+  require("./config/keys").mongoURI || "mongodb://localhost:27017/node-blog";
 
 // Connection URI
-const CONNECTION_URI = 1;
+// const CONNECTION_URI = 1;
 
 const PORT = process.env.PORT || 4000;
 
@@ -132,4 +133,6 @@ app.get("/auth/register", redirectIfAuthenticated, createUserController);
 app.post("/users/register", redirectIfAuthenticated, storeUserController);
 app.get("/auth/logout", logoutController);
 
-app.listen(process.env.PORT || 4000);
+app.listen(PORT, () => {
+  console.log(`We are connected to the server and are on port ${PORT}`);
+});
